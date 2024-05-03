@@ -970,7 +970,7 @@ spec:
   gateways:
   - istio-ingress/istio-gateway
   hosts:
-  - "frontend.play.ffw.services"
+  - "frontend.play.local.com"
   http:
   - name: boutique-frontend
     route:

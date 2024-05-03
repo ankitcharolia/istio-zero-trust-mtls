@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bash-script
+data:
+  bash.sh: |
+    #!/bin/bash
+    apt-get update
+    apt-get install -y curl wget dnsutils net-tools iputils-ping telnet netcat-traditional gpg vim
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ubuntu-tls-test
+  labels:
+    app: ubuntu
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      istio: egressgateway
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: ubuntu
+        istio: egressgateway
+        sidecar.istio.io/inject: "true"
+    spec:
+      containers:
+      - image: ubuntu:24.04
+        name: ubuntu
+        command: ["/bin/sleep", "3650d"]
+        resources:
+          limits:
+            cpu: "1"
+            memory: "500Mi"
+          requests:
+            cpu: "0.1"
+            memory: "64Mi"
+        volumeMounts:
+          - mountPath: /data
+            name: bash-script
+      volumes:
+      - name: bash-script
+        configMap:
+          name: bash-script
+          defaultMode: 0777
