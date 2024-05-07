@@ -28,7 +28,7 @@ Kiali shows whole architecture diagram.
 
 ## Verify mTLS setup
 ```bash
-istioctl x describe pod frontend-6f4659999b-xhm8x 
+$ istioctl x describe pod frontend-6f4659999b-xhm8x
 Pod: frontend-6f4659999b-xhm8x
    Pod Revision: default
    Pod Ports: 15090 (istio-proxy), 8080 (server)
@@ -45,7 +45,7 @@ Applied PeerAuthentication:
 Skipping Gateway information (no ingress gateway pods)
 ```
 
-**NOTE:** Check the destination pod to see if the destination endpoint has the label **tlsMode** equals to **istio**. For example, in the EDS response received by sleep pod, we see **frontend** pod endpoint has the **tlsMode** label.
+**NOTE:** Check the destination pod to see if the destination endpoint has the label **tlsMode** equals to **istio**. For example, in the EDS response received, we see **frontend** pod endpoint has the **tlsMode** label.
 ```bash
 $ IP=$(kubectl get pod -lapp=paymentservice -o jsonpath="{.items[*].status.podIP}")
 10.1.0.174 (IP of paymentservice pod)
